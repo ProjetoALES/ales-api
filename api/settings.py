@@ -47,10 +47,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Django apps
+    'login',
+
     # Third-Party Apps
     'rest_framework',
     'django_extensions',
     'django_werkzeug',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +68,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'api.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+AUTH_USER_MODEL = 'login.User'
 
 TEMPLATES = [
     {

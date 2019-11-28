@@ -23,11 +23,8 @@ create_superuser() {
 
 echo "Making migrations"
 # Make database migrations
-python manage.py makemigrations
-
-echo "Running migrations"
-# Apply database migrations
-python manage.py migrate
+python3 manage.py makemigrations
+python manage.py makemigrations login
 
 # run the function above
 create_superuser

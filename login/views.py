@@ -4,7 +4,6 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class AuthenticatedView(APIView):
-    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         content = {'message': 'Hello, you are authenticated!'}

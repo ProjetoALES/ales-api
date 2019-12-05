@@ -7,6 +7,8 @@ base_api_path = 'api/v1'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('{}/token/'.format(base_api_path), include('login.urls')),
+    path('{}/auth/'.format(base_api_path), include('djoser.urls')),
+    path('{}/auth/'.format(base_api_path), include('djoser.urls.jwt')),
     path('{}/ping/'.format(base_api_path),
-         AuthenticatedView.as_view(), name='test_auth_view')
+         AuthenticatedView.as_view(), name='test_auth_view'),
 ]

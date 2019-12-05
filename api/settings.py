@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_werkzeug',
     'rest_framework_simplejwt',
-    'corsheaders'
+    'corsheaders',
+    'djoser'
 ]
 
 MIDDLEWARE = [
@@ -77,7 +78,8 @@ ROOT_URLCONF = 'api.urls'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication'
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
@@ -146,6 +148,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+DJOSER = {
+    "SEND_ACTIVATION_EMAIL": False,
+    "PASSWORD_RESET_CONFIRM_URL": "#/password/reset/confirm/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_RETYPE": True
+}
 
 
 # Internationalization

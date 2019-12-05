@@ -5,7 +5,7 @@ django.setup()
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 try:
-    User.objects.create_superuser('$SUPERUSER_NAME', '$SUPERUSER_EMAIL', '$SUPERUSER_PASSWORD', first_name='admin', last_name='1')
+    User.objects.create_superuser('$SUPERUSER_NAME', '$SUPERUSER_EMAIL', '$SUPERUSER_PASSWORD')
     print('Superuser \'$SUPERUSER_NAME\' created')
 except IntegrityError:
     print('Superuser \'$SUPERUSER_NAME\' already exists')

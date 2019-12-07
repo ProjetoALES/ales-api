@@ -1,7 +1,6 @@
 import os
 import sys
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -91,7 +90,7 @@ AUTH_USER_MODEL = 'login.User'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -151,13 +150,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
+PROTOCOL = "http"
+DOMAIN = "localhost:3000"
+
 DJOSER = {
     "SEND_ACTIVATION_EMAIL": False,
-    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
-    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL": "new-password/{uid}/{token}",
     "PASSWORD_RESET_CONFIRM_RETYPE": True,
     'ACTIVATION_URL': 'activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True
+    'SEND_ACTIVATION_EMAIL': True,
+    'EMAIL': {
+        'password_reset': 'login.emails.PasswordResetEmail'
+    }
 }
 
 DEFAULT_CONTACT_EMAIL = os.environ.get('DEFAULT_CONTACT_EMAIL')

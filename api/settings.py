@@ -1,5 +1,6 @@
 import os
 import sys
+from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -150,8 +151,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
+SIMPLE_JWT = {
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7)
+}
+
 PROTOCOL = "http"
-DOMAIN = "localhost:3000"
+DOMAIN = "192.168.0.17:3000"
 
 DJOSER = {
     "SEND_ACTIVATION_EMAIL": False,

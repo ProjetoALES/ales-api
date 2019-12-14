@@ -11,4 +11,5 @@ urlpatterns = [
     path('{}/auth/'.format(base_api_path), include('djoser.urls.jwt')),
     path('{}/ping/'.format(base_api_path),
          AuthenticatedView.as_view(), name='test_auth_view'),
+    path('{}/semesters/'.format(base_api_path), include('semesters.urls'))
 ]

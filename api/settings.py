@@ -84,7 +84,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
-    ]
+    ],
+    "DATE_INPUT_FORMATS": ["%d/%m/%Y"],
 }
 
 AUTH_USER_MODEL = 'login.User'
@@ -153,18 +154,18 @@ AUTH_PASSWORD_VALIDATORS = [
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7)
 }
 
 PROTOCOL = "http"
-DOMAIN = "192.168.0.17:3000"
+DOMAIN = "localhost:3000"
 
 DJOSER = {
     "SEND_ACTIVATION_EMAIL": False,
     "PASSWORD_RESET_CONFIRM_URL": "new-password/{uid}/{token}",
     "PASSWORD_RESET_CONFIRM_RETYPE": True,
     'ACTIVATION_URL': 'activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
     'EMAIL': {
         'password_reset': 'login.emails.PasswordResetEmail'
     }

@@ -16,5 +16,8 @@ urlpatterns = [
          AuthenticatedView.as_view(), name='test_auth_view'),
 
     # semesters
-    path('{}/semesters/'.format(base_api_path), include('semesters.urls'))
+    path('{}/semesters/'.format(base_api_path), include('semesters.urls')),
+
+    # professors
+    path('{}/users/'.format(base_api_path), include('enroll.urls'))
 ]

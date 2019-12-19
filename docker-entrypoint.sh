@@ -24,7 +24,7 @@ create_superuser() {
 echo "Making migrations"
 # Make database migrations
 python3 manage.py makemigrations
-python manage.py makemigrations login semesters
+python manage.py makemigrations login semesters enroll
 
 # run the function above
 create_superuser

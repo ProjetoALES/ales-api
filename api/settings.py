@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # Django apps
     'login',
     'semesters',
+    'enroll',
 
     # Third-Party Apps
     'rest_framework',

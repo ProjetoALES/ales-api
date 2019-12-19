@@ -163,7 +163,6 @@ PROTOCOL = "http"
 DOMAIN = "localhost:3000"
 
 DJOSER = {
-    "SEND_ACTIVATION_EMAIL": False,
     "PASSWORD_RESET_CONFIRM_URL": "new-password/{uid}/{token}",
     "PASSWORD_RESET_CONFIRM_RETYPE": True,
     'ACTIVATION_URL': 'activate/{uid}/{token}',

@@ -24,17 +24,19 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password, **extra_fields):
-        return self._create_user(email, password, False, False, **extra_fields)
+        return self._create_user(email, password, is_staff=False, is_superuser=False, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
-        user = self._create_user(email, password, True, True, **extra_fields)
+        user = self._create_user(
+            email, password, is_staff=True, is_superuser=True, **extra_fields)
         return user
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=254, unique=True)
-    name = models.CharField(max_length=254, null=True, blank=True)
-    phone = models.CharField(max_length=11)
+    name = models.CharField(max_length=254, blank=False)
+    phone = models.CharField(max_length=11, blank=False)
+    birthday = models.DateField(null=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -44,6 +46,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_professor = models.BooleanField(default=False)
     is_manager = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
+
+    GENDERS = [
+        ('M', 'MALE'),
+        ('F', 'FEMALE')
+    ]
+    gender = models.CharField(max_length=1, choices=GENDERS)
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'

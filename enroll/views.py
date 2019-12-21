@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Professor
-from .serializers import ProfessorSerializer
-from .permissions import IsProfessor
+from .models import Professor, Student
+from .serializers import ProfessorSerializer, StudentSerializer
+from .permissions import IsProfessor, IsStudent, OwnProfile
 
 
 class ProfessorViewSet(viewsets.ViewSet):
@@ -16,10 +16,10 @@ class ProfessorViewSet(viewsets.ViewSet):
     """
 
     def get_permissions(self):
-        if self.action == 'list' or self.action == 'retrieve' or self.action == 'create':
-            permission_classes = [IsProfessor | IsAdminUser]
-        else:
+        if self.action == 'delete':
             permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [IsAdminUser | (IsProfessor & OwnProfile)]
         return [permission() for permission in permission_classes]
 
     def get_object(self, pk):
@@ -35,7 +35,6 @@ class ProfessorViewSet(viewsets.ViewSet):
 
     def create(self, request, format=None):
         serializer = ProfessorSerializer(data=request.data)
-        print(serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
@@ -60,3 +59,31 @@ class ProfessorViewSet(viewsets.ViewSet):
         if (professor):
             professor.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class StudentViewSet(viewsets.ViewSet):
+    """
+    Viewset for CRUD of Students
+    """
+
+    def get_permissions(self):
+        if self.action == 'delete':
+            permission_classes = [IsAdminUser]
+        elif self.action == 'create' or self.action == 'list':
+            permission_classes = [IsAdminUser | IsProfessor]
+        else:
+            permission_classes = [IsAdminUser | (
+                IsStudent & OwnProfile) | IsProfessor]
+        return [permission() for permission in permission_classes]
+
+    def list(self, request):
+        queryset = Student.objects.all()
+        serializer = StudentSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request, format=None):
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -53,7 +53,7 @@ class SemesterViewSet(viewsets.ViewSet):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
+    def destroy(self, request, pk, format=None):
         semester = self.get_object(pk)
         if (semester):
             semester.delete()

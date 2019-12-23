@@ -167,6 +167,7 @@ DJOSER = {
     "PASSWORD_RESET_CONFIRM_RETYPE": True,
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
+    'USER_CREATE_PASSWORD_RETYPE': True,
     'EMAIL': {
         'password_reset': 'login.emails.PasswordResetEmail'
     }

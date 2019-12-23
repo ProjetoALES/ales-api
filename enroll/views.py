@@ -1,4 +1,7 @@
 from django.http import Http404
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+
 
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -8,6 +11,7 @@ from rest_framework import status
 from .models import Professor, Student
 from .serializers import ProfessorSerializer, StudentSerializer
 from .permissions import IsProfessor, IsStudent
+from api import settings
 
 
 class ProfessorViewSet(viewsets.ViewSet):
@@ -28,6 +32,10 @@ class ProfessorViewSet(viewsets.ViewSet):
         except Professor.DoesNotExist:
             raise Http404
 
+    def send_account_created_email(self, title, sender, receiver_email, html_message, msg=''):
+        send_mail(title, msg, sender, [
+                  receiver_email], html_message=html_message)
+
     def list(self, request):
         queryset = Professor.objects.all()
         serializer = ProfessorSerializer(queryset, many=True)
@@ -37,6 +45,10 @@ class ProfessorViewSet(viewsets.ViewSet):
         serializer = ProfessorSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            html_message = render_to_string(
+                'email/account_created.html', {'protocol': settings.PROTOCOL, 'domain': settings.DOMAIN, 'url': 'login'})
+            self.send_account_created_email(
+                "Projeto Ales - Conta Criada", settings.EMAIL_HOST_USER, serializer.data['email'], html_message)
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -81,6 +93,10 @@ class StudentViewSet(viewsets.ViewSet):
         except Student.DoesNotExist:
             raise Http404
 
+    def send_account_created_email(self, title, sender, receiver_email, html_message, msg=''):
+        send_mail(title, msg, sender, [
+                  receiver_email], html_message=html_message)
+
     def list(self, request):
         queryset = Student.objects.all()
         serializer = StudentSerializer(queryset, many=True)
@@ -90,6 +106,10 @@ class StudentViewSet(viewsets.ViewSet):
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            html_message = render_to_string(
+                'email/account_created.html', {'protocol': settings.PROTOCOL, 'domain': settings.DOMAIN, 'url': 'login'})
+            self.send_account_created_email(
+                "Projeto Ales - Conta Criada", settings.EMAIL_HOST_USER, serializer.data['email'], html_message)
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
